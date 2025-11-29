@@ -1,4 +1,3 @@
-// UPDATED Analytics.jsx WITH DARK MODE SUPPORT
 import React, { useEffect, useState, useRef } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -34,7 +33,6 @@ import {
   Radar,
 } from "recharts";
 
-// Same purple palette
 const COLORS = [
   "#8b5cf6",
   "#a855f7",
@@ -73,37 +71,32 @@ const Analytics = ({ theme }) => {
   let speech = null;
   const hasStartedRef = useRef(false);
 
-  // Toggle Voice Output
   const toggleSpeech = () => {
     if (!speechObj) {
       console.warn("No speech object available yet.");
       return;
     }
 
-    // Case 1: If speech never started → Start it
     if (!hasStartedRef.current) {
-      window.speechSynthesis.cancel(); // reset engine
+      window.speechSynthesis.cancel();
       window.speechSynthesis.speak(speechObj);
       hasStartedRef.current = true;
       setIsSpeaking(true);
       return;
     }
 
-    // Case 2: Already speaking → Pause
     if (isSpeaking && window.speechSynthesis.speaking) {
       window.speechSynthesis.pause();
       setIsSpeaking(false);
       return;
     }
 
-    // Case 3: Paused → Resume
     if (!isSpeaking && window.speechSynthesis.paused) {
       window.speechSynthesis.resume();
       setIsSpeaking(true);
       return;
     }
 
-    // Case 4: Finished naturally → Restart from beginning
     if (!window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
       window.speechSynthesis.speak(speechObj);
       setIsSpeaking(true);
@@ -113,7 +106,6 @@ const Analytics = ({ theme }) => {
 
   const toggleVoiceReply = () => {
     if (speaking) {
-      // Stop audio immediately
       window.speechSynthesis.cancel();
       setSpeaking(false);
       return;
@@ -154,7 +146,6 @@ const Analytics = ({ theme }) => {
     recognition.stop();
   };
 
-  // PDF Styles
   const styles = StyleSheet.create({
     page: {
       fontFamily: "Times-Roman",
@@ -200,7 +191,7 @@ const Analytics = ({ theme }) => {
               key={i}
               style={{
                 ...styles.text,
-                marginBottom: 8, // <-- space after every point
+                marginBottom: 8,
               }}
             >
               {line}
@@ -239,7 +230,6 @@ const Analytics = ({ theme }) => {
     reader.readAsDataURL(blob);
   };
 
-  // Fetch transactions
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND_URL + "/api/transactions", {
@@ -249,7 +239,6 @@ const Analytics = ({ theme }) => {
       .catch(console.error);
   }, []);
 
-  // Filtering logic
   useEffect(() => {
     if (!fromDate || !toDate) {
       setFiltered([]);
@@ -287,7 +276,6 @@ const Analytics = ({ theme }) => {
     calculateSummary(filteredData);
   }, [fromDate, toDate, transactions]);
 
-  // Summary calculation + AI request
   const calculateSummary = async (data) => {
     if (!data.length) return;
 
@@ -299,18 +287,15 @@ const Analytics = ({ theme }) => {
       .filter((t) => t.type === "Expense")
       .reduce((a, t) => a + t.amount, 0);
 
-    // 1. Extract all unique days from the data (Income + Expense)
     const allDays = [
       ...new Set(data.map((t) => new Date(t.date).toDateString())),
     ];
 
-    // 2. Initialize all days with 0 expense
     const dailyExpensesMap = allDays.reduce((acc, day) => {
       acc[day] = 0;
       return acc;
     }, {});
 
-    // 3. Add actual expenses
     data.forEach((t) => {
       if (t.type !== "Expense") return;
 
@@ -318,7 +303,6 @@ const Analytics = ({ theme }) => {
       dailyExpensesMap[day] += t.amount;
     });
 
-    // 2. Convert to sorted array by date (ascending)
     const dailyExpenses = Object.entries(dailyExpensesMap)
       .map(([day, amount]) => ({
         day,
@@ -327,7 +311,6 @@ const Analytics = ({ theme }) => {
       }))
       .sort((a, b) => a.sortDate - b.sortDate);
 
-    // 3. Detect continuous trend
     let increasing = true;
     let decreasing = true;
 
@@ -343,7 +326,6 @@ const Analytics = ({ theme }) => {
       }
     }
 
-    // 4. Final trend
     let trendDirection = "irregular";
 
     if (increasing === false && decreasing === false)
@@ -351,7 +333,6 @@ const Analytics = ({ theme }) => {
     else if (increasing) trendDirection = "increasing";
     else if (decreasing) trendDirection = "decreasing";
 
-    // 5. Summary
     const summaryData = {
       totalIncome: totalIncome,
       totalSpending: totalExpense,
@@ -385,7 +366,6 @@ const Analytics = ({ theme }) => {
     }
   };
 
-  // Chart data helpers
   const incomeExpenseData = [
     {
       name: "Income",
@@ -405,7 +385,6 @@ const Analytics = ({ theme }) => {
     filtered.reduce((acc, t) => {
       const dateObj = new Date(t.date);
 
-      // Format label
       const date = dateObj.toLocaleDateString("en-IN", {
         day: "2-digit",
         month: "short",
@@ -414,14 +393,13 @@ const Analytics = ({ theme }) => {
       if (!acc[date]) acc[date] = { date, Income: 0, Expense: 0 };
       acc[date][t.type] += t.amount;
 
-      // Store actual date to help sorting
       acc[date]._sortDate = dateObj;
       return acc;
     }, {})
   )
-    .sort((a, b) => a._sortDate - b._sortDate) // ascending order
+    .sort((a, b) => a._sortDate - b._sortDate)
     .map((item) => {
-      delete item._sortDate; // cleanup
+      delete item._sortDate;
       return item;
     });
 
@@ -443,15 +421,13 @@ const Analytics = ({ theme }) => {
       minute: "2-digit",
     });
 
-    // Add user message
     const userMessage = { sender: "user", text: chatInput, time: timestamp };
     setChatMessages((prev) => [...prev, userMessage]);
 
     const userText = chatInput;
     setChatInput("");
-    setIsTyping(true); // show AI typing...
+    setIsTyping(true);
 
-    //   // 2. Create category summary for chat
     const categorySummaryForChat = Object.entries(
       filtered.reduce((acc, t) => {
         acc[t.category] = (acc[t.category] || 0) + t.amount;
@@ -465,14 +441,6 @@ const Analytics = ({ theme }) => {
         {
           userMessage: userText,
           transactions: transactions,
-          // summary: summary,
-          // categorySummary: categorySummaryForChat,
-          // typeSummary: `
-          //   Income count: ${filtered.filter((t) => t.type === "Income").length},
-          //   Expense count: ${
-          //     filtered.filter((t) => t.type === "Expense").length
-          //   }
-          // `,
         }
       );
 
@@ -484,19 +452,17 @@ const Analytics = ({ theme }) => {
         minute: "2-digit",
       });
 
-      // Add bot message
       setChatMessages((prev) => [
         ...prev,
         { sender: "bot", text: botReply, time: botTimestamp },
       ]);
 
-      // Prepare Speech Object — but DO NOT auto-play
       const utterance = new SpeechSynthesisUtterance(botReply);
       utterance.lang = "en-IN";
 
       setSpeechObj(utterance);
       hasStartedRef.current = false;
-      setIsSpeaking(false); // ensure not auto-speaking
+      setIsSpeaking(false);
     } catch (err) {
       console.error(err);
       setIsTyping(false);
@@ -529,12 +495,10 @@ const Analytics = ({ theme }) => {
             : "bg-gradient-to-b from-purple-50 to-purple-100 text-[#0A0E27]"
         }`}
     >
-      {/* Heading */}
       <h2 className="text-3xl font-bold mb-6 text-center">
         📊 SpendWise Analytics
       </h2>
 
-      {/* Filters */}
       <div
         className={`flex flex-wrap justify-center gap-6 mb-8 p-5 rounded-2xl shadow-lg
           ${
@@ -543,7 +507,6 @@ const Analytics = ({ theme }) => {
               : "bg-white text-gray-700"
           }`}
       >
-        {/* From Date */}
         <div className="flex flex-col">
           <label className="font-semibold">From:</label>
           <input
@@ -563,7 +526,6 @@ const Analytics = ({ theme }) => {
           />
         </div>
 
-        {/* To Date */}
         <div className="flex flex-col">
           <label className="font-semibold">To:</label>
           <input
@@ -583,7 +545,6 @@ const Analytics = ({ theme }) => {
           />
         </div>
 
-        {/* Clear Filter */}
         <button
           className={`text-sm font-semibold px-5 py-2 h-[40px] mt-[25px] rounded-lg transition
             ${
@@ -607,7 +568,6 @@ const Analytics = ({ theme }) => {
         </button>
       </div>
 
-      {/* Date errors */}
       {dateError && (
         <p className="text-center text-red-500 font-semibold mb-4">
           {dateError}
@@ -620,7 +580,6 @@ const Analytics = ({ theme }) => {
         </p>
       )}
 
-      {/* Summary */}
       {summary && (
         <div
           className={`rounded-2xl p-6 shadow-md mb-8
@@ -681,10 +640,8 @@ const Analytics = ({ theme }) => {
         </div>
       )}
 
-      {/* Charts */}
       {hasData && (
         <>
-          {/* Income vs Expense */}
           <div className="grid lg:grid-cols-2 gap-8">
             <div
               className={`rounded-2xl p-6 shadow-md
@@ -727,7 +684,6 @@ const Analytics = ({ theme }) => {
               </ResponsiveContainer>
             </div>
 
-            {/* Daily Trend */}
             <div
               className={`rounded-2xl p-6 shadow-md
               ${
@@ -769,7 +725,6 @@ const Analytics = ({ theme }) => {
             </div>
           </div>
 
-          {/* Pie Chart */}
           {categoryData.length > 0 && (
             <div
               className={`rounded-2xl p-6 shadow-md mt-10
@@ -792,14 +747,13 @@ const Analytics = ({ theme }) => {
                     cx="50%"
                     cy="50%"
                     outerRadius={120}
-                    label={false} // ❌ remove labels from graph
+                    label={false}
                   >
                     {categoryData.map((entry, index) => (
                       <Cell key={index} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
 
-                  {/* Tooltip */}
                   <Tooltip
                     contentStyle={{
                       background: theme === "dark" ? "#1a1a1a" : "#fff",
@@ -807,7 +761,6 @@ const Analytics = ({ theme }) => {
                     }}
                   />
 
-                  {/* ✔️ Custom Legend: category + value */}
                   <Legend
                     wrapperStyle={{ color: theme === "dark" ? "#fff" : "#000" }}
                     formatter={(value, entry, index) => {
@@ -820,7 +773,6 @@ const Analytics = ({ theme }) => {
             </div>
           )}
 
-          {/* AI Insights */}
           <div
             className={`rounded-2xl p-6 shadow-md mt-10
               ${
@@ -844,7 +796,6 @@ const Analytics = ({ theme }) => {
                         ? "bg-purple-600 text-white hover:bg-purple-700"
                         : "bg-purple-600 text-white hover:bg-purple-700"
                     }`}
-                  // onClick={sendPdfEmail}
                 >
                   {({ loading }) =>
                     loading ? "Generating PDF..." : "Download PDF"
@@ -864,7 +815,6 @@ const Analytics = ({ theme }) => {
         </>
       )}
 
-      {/* Floating Chat Icon */}
       {summary && !chatOpen && (
         <button
           onClick={() => setChatOpen(true)}
@@ -874,13 +824,11 @@ const Analytics = ({ theme }) => {
         </button>
       )}
 
-      {/* CHAT WINDOW (Bottom Right) */}
       {chatOpen && (
         <div
           className="fixed inset-0 bg-black/30 z-40"
           onClick={() => setChatOpen(false)}
         >
-          {/* Chat Box */}
           <div
             onClick={(e) => e.stopPropagation()}
             className={`
@@ -900,7 +848,6 @@ const Analytics = ({ theme }) => {
         }
       `}
           >
-            {/* Header */}
             <div className="p-4 text-lg font-semibold flex justify-between items-center border-b border-gray-600">
               FinBot
               <button onClick={() => setChatOpen(false)} className="text-xl">
@@ -908,7 +855,6 @@ const Analytics = ({ theme }) => {
               </button>
             </div>
 
-            {/* CHAT BODY */}
             <div className="chat-container flex-1 p-4 overflow-y-auto">
               <div className="chat-window space-y-3">
                 {chatMessages.map((msg, index) => (
@@ -930,7 +876,6 @@ const Analytics = ({ theme }) => {
               </div>
             </div>
 
-            {/* INPUT AREA */}
             <div className="chat-input-area p-3 border-t border-gray-600 flex items-center gap-2">
               <input
                 type="text"

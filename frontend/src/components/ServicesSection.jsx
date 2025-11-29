@@ -38,7 +38,6 @@ export function ServicesSection() {
       id="services"
     >
       <div className="max-w-5xl mx-auto px-6">
-        {/* Top Label */}
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -48,7 +47,6 @@ export function ServicesSection() {
           SERVICES
         </motion.p>
 
-        {/* Heading */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -61,7 +59,6 @@ export function ServicesSection() {
           <br /> Smarter Money Habits
         </motion.h2>
 
-        {/* 3 Cards */}
         <div className="grid md:grid-cols-3 gap-16">
           {services.map((srv, i) => (
             <motion.div
@@ -71,10 +68,8 @@ export function ServicesSection() {
               transition={{ delay: i * 0.2, duration: 0.7 }}
               className="flex flex-col items-center"
             >
-              {/* Shape */}
               <div className="relative">{srv.shape}</div>
 
-              {/* Title */}
               <h3
                 className="text-xl font-semibold 
                              text-gray-900 dark:text-white 
@@ -83,7 +78,6 @@ export function ServicesSection() {
                 {srv.title}
               </h3>
 
-              {/* Description */}
               <p
                 className="text-gray-600 dark:text-gray-300 
                             max-w-xs mt-3"

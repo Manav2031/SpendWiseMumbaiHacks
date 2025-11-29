@@ -8,7 +8,6 @@ export default function TransactionForm({ onAdd }) {
   const [importedKeys, setImportedKeys] = useState(new Set());
   const [loading, setLoading] = useState(false);
 
-  // Fetch existing transactions on mount
   useEffect(() => {
     const fetchTransactions = async () => {
       setLoading(true);
@@ -26,7 +25,6 @@ export default function TransactionForm({ onAdd }) {
         }));
         setTransactions(fetched);
 
-        // Initialize importedKeys with already fetched transactions
         const keys = new Set(
           fetched.map(
             (tx) => `${tx.amount}-${tx.date.toISOString()}-${tx.description}`
@@ -42,7 +40,6 @@ export default function TransactionForm({ onAdd }) {
     fetchTransactions();
   }, []);
 
-  // Function to parse SMS into transaction
   const parseSMS = (smsText) => {
     const amountMatch = smsText.match(/Rs\.?\s?(\d+(?:\.\d+)?)/i);
     const dateMatch = smsText.match(/on (\d{2}\/\d{2}\/\d{4})/i);
@@ -57,7 +54,6 @@ export default function TransactionForm({ onAdd }) {
     };
   };
 
-  // Categorize SMS text
   const categorizeSMS = (text) => {
     const categories = {
       Food: ["restaurant", "cafe", "dining", "meal"],
@@ -77,7 +73,6 @@ export default function TransactionForm({ onAdd }) {
     return "Other";
   };
 
-  // Auto-import SMS transactions
   const fetchAndParseSMS = async () => {
     const newTransactions = sampleSMS
       .map(parseSMS)
@@ -92,7 +87,6 @@ export default function TransactionForm({ onAdd }) {
       return;
     }
 
-    // Update importedKeys safely (no mutation)
     setImportedKeys((prev) => {
       const updated = new Set(prev);
       newTransactions.forEach((tx) => {
@@ -103,10 +97,8 @@ export default function TransactionForm({ onAdd }) {
 
     newTransactions.forEach((tx) => onAdd(tx));
 
-    // Update transactions state
     setTransactions((prev) => [...prev, ...newTransactions]);
 
-    // Send to backend
     try {
       await axios.post(
         import.meta.env.VITE_BACKEND_URL + "/api/transactions/bulk-add",
@@ -157,7 +149,6 @@ export default function TransactionForm({ onAdd }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Amount */}
       <div>
         <label className="block text-sm font-semibold mb-1 text-purple-700 dark:text-purple-300">
           Amount (Rs.)
@@ -174,7 +165,6 @@ export default function TransactionForm({ onAdd }) {
         />
       </div>
 
-      {/* Type */}
       <div>
         <label className="block text-sm font-semibold mb-1 text-purple-700 dark:text-purple-300">
           Type
@@ -191,7 +181,6 @@ export default function TransactionForm({ onAdd }) {
         </select>
       </div>
 
-      {/* Category */}
       <div>
         <label className="block text-sm font-semibold mb-1 text-purple-700 dark:text-purple-300">
           Category
@@ -220,7 +209,6 @@ export default function TransactionForm({ onAdd }) {
         </select>
       </div>
 
-      {/* Description */}
       <div>
         <label className="block text-sm font-semibold mb-1 text-purple-700 dark:text-purple-300">
           Description
@@ -236,7 +224,6 @@ export default function TransactionForm({ onAdd }) {
         />
       </div>
 
-      {/* Date */}
       <div>
         <label className="block text-sm font-semibold mb-1 text-purple-700 dark:text-purple-300">
           Date
@@ -253,7 +240,6 @@ export default function TransactionForm({ onAdd }) {
         />
       </div>
 
-      {/* Submit Button */}
       <div className="flex flex-col sm:flex-row gap-3">
         <button
           type="submit"
@@ -271,22 +257,6 @@ export default function TransactionForm({ onAdd }) {
           Auto Import SMS Transactions
         </button>
       </div>
-
-      {/* <button
-        type="submit"
-        className="px-4 bg-purple-600 text-white py-2.5 rounded-lg font-semibold 
-        hover:bg-purple-700 transition shadow-sm"
-      >
-        Add Transaction
-      </button>
-
-      <button
-        onClick={fetchAndParseSMS}
-        className="px-4 bg-purple-600 text-white py-2.5 rounded-lg font-semibold 
-        hover:bg-purple-700 transition shadow-sm"
-      >
-        Auto Import SMS Transactions
-      </button> */}
     </form>
   );
 }

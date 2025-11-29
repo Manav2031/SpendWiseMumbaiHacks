@@ -29,37 +29,32 @@ export default function Dashboard({ theme }) {
   let speech = null;
   const hasStartedRef = useRef(false);
 
-  // Toggle Voice Output
   const toggleSpeech = () => {
     if (!speechObj) {
       console.warn("No speech object available yet.");
       return;
     }
 
-    // Case 1: If speech never started → Start it
     if (!hasStartedRef.current) {
-      window.speechSynthesis.cancel(); // reset engine
+      window.speechSynthesis.cancel();
       window.speechSynthesis.speak(speechObj);
       hasStartedRef.current = true;
       setIsSpeaking(true);
       return;
     }
 
-    // Case 2: Already speaking → Pause
     if (isSpeaking && window.speechSynthesis.speaking) {
       window.speechSynthesis.pause();
       setIsSpeaking(false);
       return;
     }
 
-    // Case 3: Paused → Resume
     if (!isSpeaking && window.speechSynthesis.paused) {
       window.speechSynthesis.resume();
       setIsSpeaking(true);
       return;
     }
 
-    // Case 4: Finished naturally → Restart from beginning
     if (!window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
       window.speechSynthesis.speak(speechObj);
       setIsSpeaking(true);
@@ -69,7 +64,6 @@ export default function Dashboard({ theme }) {
 
   const toggleVoiceReply = () => {
     if (speaking) {
-      // Stop audio immediately
       window.speechSynthesis.cancel();
       setSpeaking(false);
       return;
@@ -118,15 +112,13 @@ export default function Dashboard({ theme }) {
       minute: "2-digit",
     });
 
-    // Add user message
     const userMessage = { sender: "user", text: chatInput, time: timestamp };
     setChatMessages((prev) => [...prev, userMessage]);
 
     const userText = chatInput;
     setChatInput("");
-    setIsTyping(true); // show AI typing...
+    setIsTyping(true);
 
-    //   // 2. Create category summary for chat
     const categorySummaryForChat = Object.entries(
       filtered.reduce((acc, t) => {
         acc[t.category] = (acc[t.category] || 0) + t.amount;
@@ -140,14 +132,6 @@ export default function Dashboard({ theme }) {
         {
           userMessage: userText,
           transactions: transactions,
-          // summary: summary,
-          // categorySummary: categorySummaryForChat,
-          // typeSummary: `
-          //   Income count: ${filtered.filter((t) => t.type === "Income").length},
-          //   Expense count: ${
-          //     filtered.filter((t) => t.type === "Expense").length
-          //   }
-          // `,
         }
       );
 
@@ -159,19 +143,17 @@ export default function Dashboard({ theme }) {
         minute: "2-digit",
       });
 
-      // Add bot message
       setChatMessages((prev) => [
         ...prev,
         { sender: "bot", text: botReply, time: botTimestamp },
       ]);
 
-      // Prepare Speech Object — but DO NOT auto-play
       const utterance = new SpeechSynthesisUtterance(botReply);
       utterance.lang = "en-IN";
 
       setSpeechObj(utterance);
       hasStartedRef.current = false;
-      setIsSpeaking(false); // ensure not auto-speaking
+      setIsSpeaking(false);
     } catch (err) {
       console.error(err);
       setIsTyping(false);
@@ -228,7 +210,7 @@ export default function Dashboard({ theme }) {
             </div>
           </div>
         ),
-        { duration: Infinity } // stays until user clicks
+        { duration: Infinity }
       );
     });
   };
@@ -296,7 +278,6 @@ export default function Dashboard({ theme }) {
         Dashboard
       </h1>
 
-      {/* Add Transaction Card */}
       <div
         className="bg-purple-50 dark:bg-gray-800 border border-purple-200
           dark:border-gray-700 p-5 rounded-2xl shadow-sm mb-6"
@@ -307,7 +288,6 @@ export default function Dashboard({ theme }) {
         <TransactionForm onAdd={handleAddTransaction} />
       </div>
 
-      {/* Recent Transactions */}
       <div
         className="bg-purple-50 dark:bg-gray-800 border border-purple-200
           dark:border-gray-700 p-5 rounded-2xl shadow-sm"
@@ -323,7 +303,6 @@ export default function Dashboard({ theme }) {
         />
       </div>
 
-      {/* Floating Chat Icon */}
       {!chatOpen && (
         <button
           onClick={() => setChatOpen(true)}
@@ -333,13 +312,11 @@ export default function Dashboard({ theme }) {
         </button>
       )}
 
-      {/* CHAT WINDOW (Bottom Right) */}
       {chatOpen && (
         <div
           className="fixed inset-0 bg-black/30 z-40"
           onClick={() => setChatOpen(false)}
         >
-          {/* Chat Box */}
           <div
             onClick={(e) => e.stopPropagation()}
             className={`
@@ -359,7 +336,6 @@ export default function Dashboard({ theme }) {
         }
       `}
           >
-            {/* Header */}
             <div className="p-4 text-lg font-semibold flex justify-between items-center border-b border-gray-600">
               FinBot
               <button onClick={() => setChatOpen(false)} className="text-xl">
@@ -367,7 +343,6 @@ export default function Dashboard({ theme }) {
               </button>
             </div>
 
-            {/* CHAT BODY */}
             <div className="chat-container flex-1 p-4 overflow-y-auto">
               <div className="chat-window space-y-3">
                 {chatMessages.map((msg, index) => (
@@ -389,7 +364,6 @@ export default function Dashboard({ theme }) {
               </div>
             </div>
 
-            {/* INPUT AREA */}
             <div className="chat-input-area p-3 border-t border-gray-600 flex items-center gap-2">
               <input
                 type="text"

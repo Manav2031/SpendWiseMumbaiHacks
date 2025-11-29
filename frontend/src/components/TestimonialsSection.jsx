@@ -1,4 +1,3 @@
-// TestimonialsSection.jsx
 import { motion } from "framer-motion";
 import React, { useEffect, useState, useRef } from "react";
 
@@ -25,7 +24,6 @@ export function TestimonialsSection() {
   const startX = useRef(0);
   const endX = useRef(0);
 
-  // Auto-slide every 5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % testimonials.length);
@@ -34,7 +32,6 @@ export function TestimonialsSection() {
     return () => clearInterval(timer);
   }, []);
 
-  // Swipe detection
   const handleTouchStart = (e) => {
     startX.current = e.touches[0].clientX;
   };
@@ -71,7 +68,6 @@ export function TestimonialsSection() {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Top Label */}
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -81,7 +77,6 @@ export function TestimonialsSection() {
           Testimonials
         </motion.p>
 
-        {/* Main Testimonial Box */}
         <motion.div
           key={index}
           initial={{ opacity: 0, scale: 0.95 }}
@@ -102,7 +97,6 @@ export function TestimonialsSection() {
           </p>
         </motion.div>
 
-        {/* Dot Indicators */}
         <div className="mt-12 flex justify-center gap-2">
           {testimonials.map((_, i) => (
             <button

@@ -47,7 +47,6 @@ export default function TransactionList({ transactions, onUpdate, onDelete }) {
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded p-3 shadow w-full overflow-x-auto">
-      {/* 🔥 FILTER BAR (Fully Responsive) */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4 w-full px-1">
         <select
           value={filterType}
@@ -94,7 +93,6 @@ export default function TransactionList({ transactions, onUpdate, onDelete }) {
                 </label>
               ))}
 
-              {/* Clear button */}
               <button
                 onClick={() => setFilterCategories([])}
                 className="mt-2 w-full bg-rose-500 text-white py-1 rounded"
@@ -118,7 +116,6 @@ export default function TransactionList({ transactions, onUpdate, onDelete }) {
         </button>
       </div>
 
-      {/* Header */}
       <div
         className="hidden md:grid grid-cols-6 py-3 px-2 font-semibold text-sm 
         text-purple-700 dark:text-purple-300 

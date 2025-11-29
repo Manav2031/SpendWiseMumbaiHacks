@@ -14,7 +14,6 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // ⭐ NEW — handle Google OAuth redirect
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
