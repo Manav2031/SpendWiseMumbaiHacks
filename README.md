@@ -1,4 +1,4 @@
-# 💰 SpendWise – Agentic AI-Powered Personal Finance Companion  
+# 💰 SpendWise  
 ### _Smarter Choices, Stronger Finances_
 
 SpendWise is an **AI-driven personal finance companion** that helps you understand your spending, build consistent saving habits, and make better day-to-day money decisions.  
