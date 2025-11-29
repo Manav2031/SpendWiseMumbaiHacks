@@ -13,7 +13,6 @@ export function AboutSection() {
       "
       id="about"
     >
-      {/* Left Text Section */}
       <div className="w-full md:w-1/2 px-10 md:px-20">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -62,8 +61,6 @@ export function AboutSection() {
           easy-to-read analytics.
         </motion.p>
       </div>
-
-      {/* Right Graph Section */}
       <div
         className="
           w-full md:w-1/2 relative h-[500px] 
@@ -74,7 +71,6 @@ export function AboutSection() {
           overflow-hidden transition-colors
         "
       >
-        {/* Grid lines */}
         <div className="absolute inset-0 opacity-30">
           <div
             className="w-full h-full"
@@ -86,7 +82,6 @@ export function AboutSection() {
           ></div>
         </div>
 
-        {/* Curved Graph - SVG */}
         <svg
           viewBox="0 0 800 400"
           className="absolute bottom-0 w-full opacity-90"
@@ -98,7 +93,6 @@ export function AboutSection() {
             strokeWidth="3"
           />
 
-          {/* Graph Point */}
           <circle
             cx="700"
             cy="135"

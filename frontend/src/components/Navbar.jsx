@@ -13,7 +13,6 @@ export function Navbar({ theme, setTheme }) {
   return (
     <nav className="font-noto bg-white dark:bg-gray-900 shadow-sm backdrop-blur-md fixed top-0 left-0 w-full z-50">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo (similar to BizBud style) */}
         <Link
           to="/"
           className="font-crimson text-3xl font-bold text-gray-900 dark:text-white tracking-tight"
@@ -21,7 +20,6 @@ export function Navbar({ theme, setTheme }) {
           SpendWise
         </Link>
 
-        {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-10">
           {user ? (
             <Link
@@ -42,7 +40,6 @@ export function Navbar({ theme, setTheme }) {
             </ScrollLink>
           )}
 
-          {/* Logged-in Menu */}
           {user && (
             <>
               <Link
@@ -61,7 +58,6 @@ export function Navbar({ theme, setTheme }) {
             </>
           )}
 
-          {/* Public Menu (shown only when NOT logged in) */}
           {!user && (
             <>
               <ScrollLink
@@ -107,7 +103,6 @@ export function Navbar({ theme, setTheme }) {
           )}
         </div>
 
-        {/* Right Side Buttons */}
         <div className="hidden md:flex items-center gap-6">
           {user ? (
             <>
@@ -137,7 +132,6 @@ export function Navbar({ theme, setTheme }) {
           <ThemeToggle theme={theme} setTheme={setTheme} />
         </div>
 
-        {/* Mobile Menu Button */}
         <button
           className="md:hidden text-gray-800 dark:text-gray-200"
           onClick={() => setOpen(!open)}
@@ -146,7 +140,6 @@ export function Navbar({ theme, setTheme }) {
         </button>
       </div>
 
-      {/* Mobile Dropdown */}
       {open && (
         <div className="md:hidden bg-white dark:bg-gray-900 px-6 pb-4 space-y-4 border-t border-gray-200 dark:border-gray-700 animate-fadeIn">
           {user ? (
@@ -170,7 +163,6 @@ export function Navbar({ theme, setTheme }) {
             </ScrollLink>
           )}
 
-          {/* Logged-in Menu */}
           {user && (
             <>
               <Link
@@ -191,7 +183,6 @@ export function Navbar({ theme, setTheme }) {
             </>
           )}
 
-          {/* Public Menu – only if NOT logged in */}
           {!user && (
             <>
               <ScrollLink
@@ -239,7 +230,6 @@ export function Navbar({ theme, setTheme }) {
               </ScrollLink>
             </>
           )}
-          {/* Auth + Theme */}
           <div className="pt-4">
             {user ? (
               <button

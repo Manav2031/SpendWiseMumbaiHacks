@@ -1,4 +1,3 @@
-// ContactSection.jsx
 import React from "react";
 import { motion } from "framer-motion";
 import { Linkedin, Facebook, Twitter } from "lucide-react";
@@ -19,7 +18,6 @@ export function ContactSection() {
       }}
     >
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-start">
-        {/* LEFT SIDE */}
         <div>
           <p className="text-purple-600 font-semibold tracking-widest uppercase mb-4">
             Contact
@@ -42,7 +40,6 @@ export function ContactSection() {
             Tel: 460-198-0216
           </p>
 
-          {/* Social Icons */}
           <div className="flex gap-5 text-[#0A0B2E] dark:text-white mt-10">
             <div className="p-2 transition">
               <Linkedin
@@ -70,14 +67,12 @@ export function ContactSection() {
           </div>
         </div>
 
-        {/* RIGHT SIDE FORM */}
         <motion.form
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="space-y-10"
         >
-          {/* First + Last Name */}
           <div className="grid grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-[#0A0B2E] dark:text-white text-sm">
@@ -112,7 +107,6 @@ export function ContactSection() {
             </div>
           </div>
 
-          {/* Email */}
           <div className="flex flex-col gap-2">
             <label className="text-[#0A0B2E] dark:text-white text-sm">
               Email *
@@ -129,7 +123,6 @@ export function ContactSection() {
             />
           </div>
 
-          {/* Message */}
           <div className="flex flex-col gap-2">
             <label className="text-[#0A0B2E] dark:text-white text-sm">
               Leave us a message…
@@ -146,7 +139,6 @@ export function ContactSection() {
             ></textarea>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="

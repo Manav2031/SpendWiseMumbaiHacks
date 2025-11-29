@@ -56,17 +56,6 @@ export function LiveFinanceNews() {
     transition-all duration-300 ease-out
   "
               >
-                {/* //<div
-              //   key={i}
-              //   className="
-              //     bg-[#8b5cf6]
-              //     dark:from-[#1c1530] dark:via-[#24143a] dark:to-[#2d1650]
-              //     rounded-xl shadow-md p-5 
-              //     border border-purple-200 dark:border-purple-800
-              //     hover:shadow-xl hover:-translate-y-1 
-              //     transition transform
-              //   "
-              // > */}
                 <a
                   href={n.url}
                   target="_blank"

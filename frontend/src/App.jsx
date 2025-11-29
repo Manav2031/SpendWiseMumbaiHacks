@@ -12,19 +12,13 @@ import { Toaster } from "react-hot-toast";
 
 export default function App() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
-  const { user, loading } = useAuth(); // ✅ get user from context
+  const { user, loading } = useAuth();
   useEffect(() => {
     localStorage.setItem("theme", theme);
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
-  // useEffect(() => {
-  //   if (theme === "dark") document.documentElement.classList.add("dark");
-  //   else document.documentElement.classList.remove("dark");
-  //   localStorage.setItem("theme", theme);
-  // }, [theme]);
 
   if (loading) {
-    // ✅ wait until AuthContext finishes checking
     return (
       <div className="flex justify-center items-center min-h-screen">
         <p className="text-lg font-semibold">Loading...</p>

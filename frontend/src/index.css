@@ -17,25 +17,20 @@
 body {
   background: var(--bg);
   color: inherit;
-  /* font-family: "Work Sans", sans-serif;
-  font-weight: bold; */
 }
 .card {
   background: var(--card);
 }
 
-/* Force calendar text + icon white in dark mode */
 .dark .dark-date {
   color: white !important;
 }
 
-/* Fix for Chrome/Edge - invert the calendar icon */
 .dark .dark-date::-webkit-calendar-picker-indicator {
   filter: invert(1) brightness(200%);
   cursor: pointer;
 }
 
-/* Fix background inside the popup calendar */
 .dark input[type="date"]::-webkit-datetime-edit {
   color: white !important;
 }
@@ -54,7 +49,6 @@ body {
   color: white !important;
 }
 
-/* Microphone pulsing animation */
 .mic-btn {
   width: 48px;
   height: 48px;
@@ -87,7 +81,6 @@ body {
   }
 }
 
-/* Typing animation */
 .typing-indicator {
   display: flex;
   gap: 4px;
@@ -131,7 +124,6 @@ body {
 .chat-window {
   flex: 1;
   overflow-y: auto;
-  /* padding: 10px; */
 }
 
 .msg {

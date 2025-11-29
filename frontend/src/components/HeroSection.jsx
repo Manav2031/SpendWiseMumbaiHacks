@@ -7,7 +7,6 @@ import { OrbitControls } from "@react-three/drei";
 function FinanceModel() {
   return (
     <Float speed={1.5} rotationIntensity={1.2} floatIntensity={1.5}>
-      {/* Main card */}
       <mesh castShadow receiveShadow>
         <boxGeometry args={[3.2, 2, 0.15]} />
         <meshStandardMaterial
@@ -19,13 +18,11 @@ function FinanceModel() {
         />
       </mesh>
 
-      {/* Chip - fixed position inside card */}
       <mesh position={[-1.0, 0.5, 0.08]}>
         <boxGeometry args={[0.45, 0.3, 0.05]} />
         <meshStandardMaterial color={"#fbbf24"} metalness={1} roughness={0.2} />
       </mesh>
 
-      {/* Card Number */}
       {Array.from({ length: 4 }).map((_, i) => (
         <mesh key={i} position={[-0.9 + i * 0.7, 0.0, 0.08]}>
           <boxGeometry args={[0.55, 0.05, 0.02]} />
@@ -33,47 +30,38 @@ function FinanceModel() {
         </mesh>
       ))}
 
-      {/* Cardholder Name */}
       <mesh position={[-0.9, -0.5, 0.08]}>
         <boxGeometry args={[1.0, 0.08, 0.02]} />
         <meshStandardMaterial color={"#ffffff"} />
       </mesh>
 
-      {/* Expiration Date */}
       <mesh position={[0.6, -0.5, 0.08]}>
         <boxGeometry args={[0.4, 0.08, 0.02]} />
         <meshStandardMaterial color={"#ffffff"} />
       </mesh>
 
-      {/* Small logo */}
       <mesh position={[1.2, 0.7, 0.08]}>
         <circleGeometry args={[0.15, 32]} />
         <meshStandardMaterial color={"#fbbf24"} />
       </mesh>
 
-      {/* Decorative line */}
       <mesh position={[-1.2, 0.7, 0.08]}>
         <boxGeometry args={[0.7, 0.03, 0.01]} />
         <meshStandardMaterial color={"#ffffff"} opacity={0.5} transparent />
       </mesh>
 
-      {/* --- Back of Card Fake Details --- */}
-      {/* Magnetic Stripe */}
       <mesh position={[0, 0.7, -0.07]}>
         <boxGeometry args={[3.0, 0.25, 0.02]} />
         <meshStandardMaterial color={"#111111"} />
       </mesh>
 
-      {/* Signature panel */}
       <mesh position={[-0.3, 0.35, -0.07]}>
-        <boxGeometry args={[1.0, 0.12, 0.01]} /> {/* width reduced */}
+        <boxGeometry args={[1.0, 0.12, 0.01]} />
         <meshStandardMaterial color={"#ffffff"} />
       </mesh>
 
-      {/* CVV */}
       <mesh position={[0.85, 0.35, -0.07]}>
         {" "}
-        {/* X shifted left */}
         <boxGeometry args={[0.3, 0.08, 0.01]} />
         <meshStandardMaterial color={"#dddddd"} />
       </mesh>
@@ -92,7 +80,6 @@ export function HeroSection() {
         pt-32 pb-40 md:pt-40 md:pb-48
       "
     >
-      {/* Faint Grid Background */}
       <div
         className="absolute inset-0 opacity-[0.25] dark:opacity-[0.15]"
         style={{
@@ -155,10 +142,8 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Purple Waves (Light & Dark variants) */}
       <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
         <svg viewBox="0 0 2000 500" className="w-full">
-          {/* BACK WAVE */}
           <path
             className="dark:hidden"
             fill="#a855f7"
@@ -173,7 +158,6 @@ export function HeroSection() {
               V500 H0 Z
             "
           />
-          {/* BACK WAVE — DARK */}
           <path
             className="hidden dark:block"
             fill="#6d28d9"
@@ -189,7 +173,6 @@ export function HeroSection() {
             "
           />
 
-          {/* FRONT WAVE */}
           <path
             className="dark:hidden"
             fill="#8b5cf6"
@@ -204,7 +187,6 @@ export function HeroSection() {
               V500 H0 Z
             "
           />
-          {/* FRONT WAVE — DARK */}
           <path
             className="hidden dark:block"
             fill="#7c3aed"
