@@ -3,9 +3,9 @@
 
 SpendWise is an **AI-driven personal finance companion** that helps you understand your spending, build consistent saving habits, and make better day-to-day money decisions.  
 Unlike tools that jump straight to *investing*, SpendWise focuses on what truly matters first: **awareness → control → saving**.
-
-## 📷 Prototype Snapshot  
-<img src="assets/prototype.png" alt="SpendWise Prototype" width="600"/>
+<p align="center">  
+<img src="assets/prototype.jpeg" alt="SpendWise Prototype" width="600" />
+</p>
 
 ## 🌐 About SpendWise
 
